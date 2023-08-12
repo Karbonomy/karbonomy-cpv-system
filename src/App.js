@@ -1,5 +1,10 @@
 import React, { createRef } from 'react'
 import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom"
+import Home from './pages/Home'
+import {
   Container,
   Dimmer,
   Loader,
@@ -91,10 +96,22 @@ function Main() {
   )
 }
 
+const router = createBrowserRouter([
+  {
+    path: "/main",
+    element: <Main />,
+  },
+  {
+    path: "/homepage",
+    element: <Home />,
+    exact: true,
+  }
+]);
+
 export default function App() {
   return (
     <SubstrateContextProvider>
-      <Main />
+      <RouterProvider router={router} />
     </SubstrateContextProvider>
   )
 }
