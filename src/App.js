@@ -1,17 +1,29 @@
-import React from 'react'
-import {
-  RouterProvider,
-} from "react-router-dom"
-
-import 'semantic-ui-css/semantic.min.css'
-
+import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+// routes
+import Router from './routes';
+// theme
+import ThemeProvider from './theme';
+// components
+import { StyledChart } from './components/chart';
+import ScrollToTop from './components/scroll-to-top';
 import { SubstrateContextProvider } from './substrate-lib'
-import router from './routes'
+
+// ----------------------------------------------------------------------
 
 export default function App() {
   return (
     <SubstrateContextProvider>
-      <RouterProvider router={router} />
+      <HelmetProvider>
+        <BrowserRouter>
+          <ThemeProvider>
+            <ScrollToTop />
+            <StyledChart />
+            <Router />
+          </ThemeProvider>
+        </BrowserRouter>
+      </HelmetProvider>
     </SubstrateContextProvider>
-  )
+
+  );
 }
