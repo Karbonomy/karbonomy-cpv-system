@@ -26,7 +26,7 @@ export default function SignupPage() {
       <Container maxWidth="sm">
         <StyledContent>
           <Typography variant="h4" gutterBottom>
-            Sign in to Karbonomy
+            Sign up to Karbonomy
           </Typography>
 
           <Typography variant="body2" sx={{ mb: 5 }}>
