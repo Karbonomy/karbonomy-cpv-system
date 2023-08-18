@@ -4,6 +4,7 @@ import DashboardLayout from './layouts/main';
 // import BlogPage from './pages/BlogPage';
 import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignUpPage';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import Main from './components/main';
@@ -26,7 +27,10 @@ export default function Router() {
       path: 'login',
       element: <LoginPage />,
     },
-   
+    {
+      path: 'signup',
+      element: <SignupPage />,
+    },
   ]);
 
   return routes;
