@@ -1,16 +1,19 @@
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar, IconButton, Button } from '@mui/material';
+// icon
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 // utils
 import { bgBlur } from '../../../utils/cssStyles';
 // components
 import Iconify from '../../../components/iconify';
 //
 import Searchbar from './Searchbar';
-import AccountPopover from './AccountPopover';
-import LanguagePopover from './LanguagePopover';
-import NotificationsPopover from './NotificationsPopover';
+// import AccountPopover from './AccountPopover';
+// import LanguagePopover from './LanguagePopover';
+// import NotificationsPopover from './NotificationsPopover';
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +46,41 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
+  const [haveMetamask, setHaveMetamask] = useState(true)
+  const [isConnected, setIsConnected] = useState(false)
+  const [accountAddress, setAccountAddress] = useState('')
+
+  useEffect(() => {
+    const { ethereum } = window
+    const checkMetamaskAvailability = async () => {
+      if (!ethereum) {
+        setHaveMetamask(false)
+      }
+      setHaveMetamask(true)
+
+    }
+    checkMetamaskAvailability();
+
+  }, [])
+
+  const handleConnectWallet = async () => {
+    try {
+      const { ethereum } = window
+      if (!ethereum) {
+        setHaveMetamask(false)
+      }
+
+      const accounts = await ethereum.request({
+        method: 'eth_requestAccounts'
+      });
+      setIsConnected(true)
+      setAccountAddress(accounts[0])
+    } catch (error) {
+      setIsConnected(false)
+    }
+
+  }
+
   return (
     <StyledRoot>
       <StyledToolbar>
@@ -68,9 +106,26 @@ export default function Header({ onOpenNav }) {
             sm: 1,
           }}
         >
-          <LanguagePopover />
+          {/* <LanguagePopover />
           <NotificationsPopover />
-          <AccountPopover />
+          <AccountPopover /> */}
+          {
+            isConnected && haveMetamask ?
+              (
+                <Button variant='contained' startIcon={<AccountBalanceWalletIcon />}>
+                  {accountAddress.slice(0, 4)}...{accountAddress.slice(38, 42)}
+                </Button>
+              ) : (
+                <Button
+                  variant='contained'
+                  startIcon={<AccountBalanceWalletIcon />}
+                  onClick={handleConnectWallet}
+                >
+                  Connect Wallet
+                </Button>
+              )
+          }
+
         </Stack>
       </StyledToolbar>
     </StyledRoot>
