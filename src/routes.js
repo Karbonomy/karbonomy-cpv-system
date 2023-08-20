@@ -5,9 +5,10 @@ import DashboardLayout from './layouts/main';
 import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignUpPage';
-import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import Main from './components/main';
+import ProjectPage from './pages/projects';
+import CreateProject from './pages/projects/create';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +20,8 @@ export default function Router() {
       children: [
         { path: '/', element: <DashboardAppPage /> },
         { path: 'companys', element: <UserPage /> },
-        { path: 'projects', element: <ProductsPage /> },
+        { path: 'projects', element: <ProjectPage /> },
+        { path: 'projects/create', element: <CreateProject /> },
         { path: 'main', element: <Main /> },
       ],
     },
