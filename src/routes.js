@@ -3,7 +3,7 @@ import { useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/main';
 // import BlogPage from './pages/BlogPage';
 import UserPage from './pages/UserPage';
-import LoginPage from './pages/LoginPage';
+// import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignUpPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import Main from './components/main';
@@ -25,10 +25,10 @@ export default function Router() {
         { path: 'main', element: <Main /> },
       ],
     },
-    {
-      path: 'login',
-      element: <LoginPage />,
-    },
+    // {
+    //   path: 'login',
+    //   element: <LoginPage />,
+    // },
     {
       path: 'signup',
       element: <SignupPage />,

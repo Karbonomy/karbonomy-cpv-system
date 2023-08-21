@@ -3,14 +3,16 @@ import { useState, useEffect } from 'react';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton, Button } from '@mui/material';
+// navigate
+import { useNavigate } from 'react-router';
 // icon
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 // utils
 import { bgBlur } from '../../../utils/cssStyles';
 // components
 import Iconify from '../../../components/iconify';
-//
 import Searchbar from './Searchbar';
+import Loading from '../../../components/common/Loading';
 // import AccountPopover from './AccountPopover';
 // import LanguagePopover from './LanguagePopover';
 // import NotificationsPopover from './NotificationsPopover';
@@ -50,6 +52,11 @@ export default function Header({ onOpenNav }) {
   const [isConnected, setIsConnected] = useState(false)
   const [accountAddress, setAccountAddress] = useState('')
 
+  const [isLooading, setIsLoading] = useState(false)
+  const [loadingContent, setLoadingContent] = useState('')
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     const { ethereum } = window
     const checkMetamaskAvailability = async () => {
@@ -63,7 +70,7 @@ export default function Header({ onOpenNav }) {
 
   }, [])
 
-  const handleConnectWallet = async () => {
+  const connectWallet = async () => {
     try {
       const { ethereum } = window
       if (!ethereum) {
@@ -81,8 +88,22 @@ export default function Header({ onOpenNav }) {
 
   }
 
+  const handleConnectWallet = () => {
+    /*
+      * TODO: check if wallet address exist in database or not
+      * if not exist navigate to signup page
+      * if exist get company data (name, email, ...) and connect wallet
+    */
+    setIsLoading(true)
+    setLoadingContent('Checking wallet...')
+    navigate('/signup')
+    connectWallet()
+    setIsLoading(false)
+  }
+
   return (
     <StyledRoot>
+      <Loading open={isLooading} content={loadingContent} />
       <StyledToolbar>
         <IconButton
           onClick={onOpenNav}
