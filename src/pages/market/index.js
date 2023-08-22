@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet-async';
 // mui
 import { Container, Grid } from "@mui/material";
 // components
-import NFTCard from "../components/common/Card";
-import Empty from "../assets/images/empty.jpeg";
+import NFTCard from "../../components/common/Card";
+import Empty from "../../assets/images/empty.jpeg";
 
 function Marketplace() {
   return (
