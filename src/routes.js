@@ -24,7 +24,6 @@ export default function Router() {
         { path: 'projects', element: <ProjectPage /> },
         { path: 'projects/create', element: <CreateProject /> },
         { path: 'main', element: <Main /> },
-        { path: 'marketplace', element: <Marketplace /> }
       ],
     },
     {
@@ -34,6 +33,10 @@ export default function Router() {
     {
       path: 'signup',
       element: <SignupPage />,
+    },
+    {
+      path: 'marketplace',
+      element: <Marketplace />
     }
   ]);
 
