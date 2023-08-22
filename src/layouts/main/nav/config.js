@@ -26,6 +26,11 @@ const navConfig = [
     path: '/main',
     icon: icon('ic_blog'),
   },
+  {
+    title: 'marketplace',
+    path: '/marketplace',
+    icon: icon('ic_market')
+  }
   // {
   //   title: 'login',
   //   path: '/login',
