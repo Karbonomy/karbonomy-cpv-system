@@ -4,15 +4,20 @@ import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton, Button } from '@mui/material';
 // navigate
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 // icon
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+// web3
+import { web3Enable, web3Accounts } from '@polkadot/extension-dapp';
+// redux
+import { useDispatch } from 'react-redux';
+import { setLoggedInUser, clearLoggedInUser } from "../../../features/userSlice"
 // utils
 import { bgBlur } from '../../../utils/cssStyles';
 // components
 import Iconify from '../../../components/iconify';
 import Searchbar from './Searchbar';
-import Loading from '../../../components/common/Loading';
+// import Loading from '../../../components/common/Loading';
 // import AccountPopover from './AccountPopover';
 // import LanguagePopover from './LanguagePopover';
 // import NotificationsPopover from './NotificationsPopover';
@@ -48,62 +53,75 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
-  const [haveMetamask, setHaveMetamask] = useState(true)
-  const [isConnected, setIsConnected] = useState(false)
-  const [accountAddress, setAccountAddress] = useState('')
+  // const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [isLooading, setIsLoading] = useState(false)
-  const [loadingContent, setLoadingContent] = useState('')
+  const [havePolkadotExtension, setHavePolkadotExtension] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
+  const [accountAddress, setAccountAddress] = useState('');
 
-  const navigate = useNavigate();
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [loadingContent, setLoadingContent] = useState('');
+
 
   useEffect(() => {
-    const { ethereum } = window
-    const checkMetamaskAvailability = async () => {
-      if (!ethereum) {
-        setHaveMetamask(false)
+    const checkPolkadotAvailability = async () => {
+      const extensions = await web3Enable('Your DApp Name');
+
+      if (!extensions.length) {
+        setHavePolkadotExtension(false);
+        return;
       }
-      setHaveMetamask(true)
-
+      setHavePolkadotExtension(true);
     }
-    checkMetamaskAvailability();
 
-  }, [])
+    checkPolkadotAvailability();
+  }, []);
 
   const connectWallet = async () => {
     try {
-      const { ethereum } = window
-      if (!ethereum) {
-        setHaveMetamask(false)
+      const allAccounts = await web3Accounts();
+
+      if (allAccounts.length) {
+        setIsConnected(true);
+        setAccountAddress(allAccounts[0].address);
+        dispatch(setLoggedInUser({
+          name: 'test',
+          email: 'test@email.com',
+          wallet: allAccounts[0].address
+        }))
       }
-
-      const accounts = await ethereum.request({
-        method: 'eth_requestAccounts'
-      });
-      setIsConnected(true)
-      setAccountAddress(accounts[0])
     } catch (error) {
-      setIsConnected(false)
+      setIsConnected(false);
     }
-
   }
 
-  const handleConnectWallet = () => {
-    /*
-      * TODO: check if wallet address exist in database or not
-      * if not exist navigate to signup page
-      * if exist get company data (name, email, ...) and connect wallet
-    */
-    setIsLoading(true)
-    setLoadingContent('Checking wallet...')
-    navigate('/signup')
-    connectWallet()
-    setIsLoading(false)
-  }
+  const disconnectWallet = () => {
+    setIsConnected(false);
+    setAccountAddress('');
+    dispatch(clearLoggedInUser())
+  };
+
+  // const handleConnectWallet = () => {
+  //   /*
+  //     * TODO: check if wallet address exist in database or not
+  //     * if not exist navigate to signup page
+  //     * if exist get company data (name, email, ...) and connect wallet
+  //   */
+  //   // setIsLoading(true);
+  //   setLoadingContent('Checking wallet...');
+  //   connectWallet()
+  //     .then(() => {
+  //       navigate('/signup');
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // }
 
   return (
     <StyledRoot>
-      <Loading open={isLooading} content={loadingContent} />
+      {/* <Loading open={isLooading} content={loadingContent} /> */}
       <StyledToolbar>
         <IconButton
           onClick={onOpenNav}
@@ -131,21 +149,26 @@ export default function Header({ onOpenNav }) {
           <NotificationsPopover />
           <AccountPopover /> */}
           {
-            isConnected && haveMetamask ?
+            isConnected && havePolkadotExtension ?
               (
-                <Button variant='contained' startIcon={<AccountBalanceWalletIcon />}>
-                  {accountAddress.slice(0, 4)}...{accountAddress.slice(38, 42)}
+                <Button
+                  variant='contained'
+                  startIcon={<AccountBalanceWalletIcon />}
+                  onClick={disconnectWallet}
+                >
+                  {accountAddress.slice(0, 4)}...{accountAddress.slice(-4)}
                 </Button>
               ) : (
                 <Button
                   variant='contained'
                   startIcon={<AccountBalanceWalletIcon />}
-                  onClick={handleConnectWallet}
+                  onClick={connectWallet}
                 >
                   Connect Wallet
                 </Button>
               )
           }
+
 
         </Stack>
       </StyledToolbar>
