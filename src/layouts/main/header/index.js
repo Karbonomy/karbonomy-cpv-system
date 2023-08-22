@@ -9,6 +9,9 @@ import { Box, Stack, AppBar, Toolbar, IconButton, Button } from '@mui/material';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 // web3
 import { web3Enable, web3Accounts } from '@polkadot/extension-dapp';
+// redux
+import { useDispatch } from 'react-redux';
+import { setLoggedInUser, clearLoggedInUser } from "../../../features/userSlice"
 // utils
 import { bgBlur } from '../../../utils/cssStyles';
 // components
@@ -50,6 +53,9 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
+  // const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [havePolkadotExtension, setHavePolkadotExtension] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [accountAddress, setAccountAddress] = useState('');
@@ -57,7 +63,6 @@ export default function Header({ onOpenNav }) {
   // const [isLoading, setIsLoading] = useState(false);
   // const [loadingContent, setLoadingContent] = useState('');
 
-  // const navigate = useNavigate();
 
   useEffect(() => {
     const checkPolkadotAvailability = async () => {
@@ -67,7 +72,6 @@ export default function Header({ onOpenNav }) {
         setHavePolkadotExtension(false);
         return;
       }
-
       setHavePolkadotExtension(true);
     }
 
@@ -81,6 +85,11 @@ export default function Header({ onOpenNav }) {
       if (allAccounts.length) {
         setIsConnected(true);
         setAccountAddress(allAccounts[0].address);
+        dispatch(setLoggedInUser({
+          name: 'test',
+          email: 'test@email.com',
+          wallet: allAccounts[0].address
+        }))
       }
     } catch (error) {
       setIsConnected(false);
@@ -90,6 +99,7 @@ export default function Header({ onOpenNav }) {
   const disconnectWallet = () => {
     setIsConnected(false);
     setAccountAddress('');
+    dispatch(clearLoggedInUser())
   };
 
   // const handleConnectWallet = () => {
