@@ -121,7 +121,7 @@ export default function CreateProject() {
                                 helperText={errors.organization?.message}
                                 name="organization"
                                 id="organization"
-                                label="organization *"
+                                label="Organization *"
                             />
                         </Box>
 
@@ -211,7 +211,7 @@ export default function CreateProject() {
                         >
                             <label htmlFor='img' className='form-input_title'>
                                 <div className='form-img' style={{ width: '447px' }}>
-                                    <p className='label'>image</p>
+                                    <p className='label'>Image</p>
                                     <img height={110} style={{ cursor: 'pointer' }} alt="#" src={file || Empty} />
                                 </div>
                             </label>
