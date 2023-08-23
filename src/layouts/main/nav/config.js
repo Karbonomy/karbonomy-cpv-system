@@ -22,6 +22,11 @@ const navConfig = [
     icon: icon('ic_cart'),
   },
   {
+    title: 'Customers Waiting',
+    path: '/customer',
+    icon: icon('alarm-warning-line-1'),
+  },
+  {
     title: 'main',
     path: '/main',
     icon: icon('ic_blog'),
