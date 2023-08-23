@@ -1,33 +1,16 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
-// @mui
+import { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton, Button } from '@mui/material';
-// navigate
-// import { useNavigate } from 'react-router';
-// icon
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-// web3
-import { web3Enable, web3Accounts } from '@polkadot/extension-dapp';
-// redux
-import { useDispatch, useSelector } from 'react-redux';
-import { setLoggedInUser, clearLoggedInUser } from "../../../features/userSlice"
-// utils
+import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import { web3Enable } from '@polkadot/extension-dapp';
+import { useSelector } from 'react-redux';
 import { bgBlur } from '../../../utils/cssStyles';
-// components
 import Iconify from '../../../components/iconify';
 import Searchbar from './Searchbar';
-// import Loading from '../../../components/common/Loading';
-// import AccountPopover from './AccountPopover';
-// import LanguagePopover from './LanguagePopover';
-// import NotificationsPopover from './NotificationsPopover';
-
-// ----------------------------------------------------------------------
+import WalletButton from '../../../components/common/ConnectWalletButton';
 
 const NAV_WIDTH = 280;
-
 const HEADER_MOBILE = 64;
-
 const HEADER_DESKTOP = 92;
 
 const StyledRoot = styled(AppBar)(({ theme }) => ({
@@ -46,77 +29,23 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
-
 Header.propTypes = {
   onOpenNav: PropTypes.func,
 };
 
 export default function Header({ onOpenNav }) {
-  // const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const [havePolkadotExtension, setHavePolkadotExtension] = useState(false);
-
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [loadingContent, setLoadingContent] = useState('');
-
-  const { isConnected, wallet } = useSelector((state) => state.user)
+  const { isConnected, wallet } = useSelector((state) => state.user);
 
   useEffect(() => {
     const checkPolkadotAvailability = async () => {
-      const extensions = await web3Enable('Your DApp Name');
-
-      if (!extensions.length) {
-        setHavePolkadotExtension(false);
-        return;
-      }
-      setHavePolkadotExtension(true);
-    }
+      return await web3Enable('Your DApp Name');
+    };
 
     checkPolkadotAvailability();
   }, []);
 
-  const connectWallet = async () => {
-    try {
-      const allAccounts = await web3Accounts();
-
-      if (allAccounts.length) {
-        dispatch(setLoggedInUser({
-          name: 'test',
-          email: 'test@email.com',
-          wallet: allAccounts[0].address
-        }))
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const disconnectWallet = () => {
-    dispatch(clearLoggedInUser())
-  };
-
-  // const handleConnectWallet = () => {
-  //   /*
-  //     * TODO: check if wallet address exist in database or not
-  //     * if not exist navigate to signup page
-  //     * if exist get company data (name, email, ...) and connect wallet
-  //   */
-  //   // setIsLoading(true);
-  //   setLoadingContent('Checking wallet...');
-  //   connectWallet()
-  //     .then(() => {
-  //       navigate('/signup');
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }
-
   return (
     <StyledRoot>
-      {/* <Loading open={isLooading} content={loadingContent} /> */}
       <StyledToolbar>
         <IconButton
           onClick={onOpenNav}
@@ -140,31 +69,7 @@ export default function Header({ onOpenNav }) {
             sm: 1,
           }}
         >
-          {/* <LanguagePopover />
-          <NotificationsPopover />
-          <AccountPopover /> */}
-          {
-            isConnected && havePolkadotExtension ?
-              (
-                <Button
-                  variant='contained'
-                  startIcon={<AccountBalanceWalletIcon />}
-                  onClick={disconnectWallet}
-                >
-                  {wallet.slice(0, 4)}...{wallet.slice(-4)}
-                </Button>
-              ) : (
-                <Button
-                  variant='contained'
-                  startIcon={<AccountBalanceWalletIcon />}
-                  onClick={connectWallet}
-                >
-                  Connect Wallet
-                </Button>
-              )
-          }
-
-
+          <WalletButton wallet={wallet} isConnected={isConnected} />
         </Stack>
       </StyledToolbar>
     </StyledRoot>
