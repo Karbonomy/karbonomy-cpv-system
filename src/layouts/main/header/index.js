@@ -10,7 +10,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 // web3
 import { web3Enable, web3Accounts } from '@polkadot/extension-dapp';
 // redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLoggedInUser, clearLoggedInUser } from "../../../features/userSlice"
 // utils
 import { bgBlur } from '../../../utils/cssStyles';
@@ -57,12 +57,11 @@ export default function Header({ onOpenNav }) {
   const dispatch = useDispatch();
 
   const [havePolkadotExtension, setHavePolkadotExtension] = useState(false);
-  const [isConnected, setIsConnected] = useState(false);
-  const [accountAddress, setAccountAddress] = useState('');
 
   // const [isLoading, setIsLoading] = useState(false);
   // const [loadingContent, setLoadingContent] = useState('');
 
+  const { isConnected, wallet } = useSelector((state) => state.user)
 
   useEffect(() => {
     const checkPolkadotAvailability = async () => {
@@ -83,8 +82,6 @@ export default function Header({ onOpenNav }) {
       const allAccounts = await web3Accounts();
 
       if (allAccounts.length) {
-        setIsConnected(true);
-        setAccountAddress(allAccounts[0].address);
         dispatch(setLoggedInUser({
           name: 'test',
           email: 'test@email.com',
@@ -92,13 +89,11 @@ export default function Header({ onOpenNav }) {
         }))
       }
     } catch (error) {
-      setIsConnected(false);
+      console.log(error)
     }
   }
 
   const disconnectWallet = () => {
-    setIsConnected(false);
-    setAccountAddress('');
     dispatch(clearLoggedInUser())
   };
 
@@ -156,7 +151,7 @@ export default function Header({ onOpenNav }) {
                   startIcon={<AccountBalanceWalletIcon />}
                   onClick={disconnectWallet}
                 >
-                  {accountAddress.slice(0, 4)}...{accountAddress.slice(-4)}
+                  {wallet.slice(0, 4)}...{wallet.slice(-4)}
                 </Button>
               ) : (
                 <Button
