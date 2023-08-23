@@ -11,7 +11,7 @@ import Main from './components/main';
 import ProjectPage from './pages/projects';
 import CreateProject from './pages/projects/create';
 import Marketplace from './pages/market';
-import CertificateDetail from './pages/market/details'
+import CertificateDetail from './pages/market/detail'
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ export default function Router() {
       element: <MarketLayout />,
       children: [
         { path: '/marketplace', element: <Marketplace /> },
-        { path: '/marketplace/details', element: <CertificateDetail /> },
+        { path: '/marketplace/detail', element: <CertificateDetail /> },
       ]
     }
   ]);

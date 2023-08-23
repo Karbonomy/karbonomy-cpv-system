@@ -8,7 +8,7 @@ const initialState = {
 }
 
 const userSlice = createSlice({
-  name: 'company',
+  name: 'user',
   initialState,
   reducers: {
     setLoggedInUser: (state, action) => {
