@@ -2,7 +2,11 @@ import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, Box, Button } from '@mui/material';
+// icon
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+// navigate
+import { Link } from 'react-router-dom'
 // components
 import Iconify from '../components/iconify';
 // sections
@@ -30,9 +34,23 @@ export default function DashboardAppPage() {
       </Helmet>
 
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
-        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Typography variant="h4" sx={{ mb: 5 }}>
+            Hi, Welcome back
+          </Typography>
+          <Link to="/marketplace">
+            <Button
+              sx={{ height: '40px' }}
+              variant='contained'
+              endIcon={<ArrowForwardIcon />}
+              to="/marketplace"
+            >
+              Go to marketplace
+            </Button>
+          </Link>
+
+        </Box>
+
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>

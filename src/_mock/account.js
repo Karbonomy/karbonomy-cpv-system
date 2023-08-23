@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 
 const account = {
-  displayName: 'Karnonamy',
+  displayName: 'Karbonomy',
   email: 'karbonamy@gmail.com',
   photoURL: '/assets/images/avatars/avatar_default.jpg',
 };

@@ -4,10 +4,11 @@ const initialState = {
   name: '',
   email: '',
   wallet: '',
+  isConnected: false
 }
 
 const userSlice = createSlice({
-  name: 'company',
+  name: 'user',
   initialState,
   reducers: {
     setLoggedInUser: (state, action) => {
@@ -15,11 +16,13 @@ const userSlice = createSlice({
       state.name = name;
       state.email = email;
       state.wallet = wallet;
+      state.isConnected = true
     },
     clearLoggedInUser: (state) => {
       state.email = '';
       state.name = '';
       state.wallet = '';
+      state.isConnected = false
     }
   }
 })
