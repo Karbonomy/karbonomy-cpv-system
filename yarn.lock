@@ -7591,6 +7591,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cloudinary-core@npm:^2.13.0":
+  version: 2.13.0
+  resolution: "cloudinary-core@npm:2.13.0"
+  peerDependencies:
+    lodash: ">=4.0"
+  checksum: 5485fbc094b0722f6d4c6becfde431d3042c3c926a69c4bc2f6b373ac059b9b798703845c6cbf4a55ee2eb1c7718f5ec5130772117419755015b04dabd369be5
+  languageName: node
+  linkType: hard
+
+"cloudinary-react@npm:^1.8.1":
+  version: 1.8.1
+  resolution: "cloudinary-react@npm:1.8.1"
+  dependencies:
+    cloudinary-core: ^2.13.0
+    prop-types: ^15.8.1
+  peerDependencies:
+    react: ^16.3.3 || ^17.0.0 || ^18.0.0
+  checksum: 949ceb81fa5ce441abafedae84174bb0f6fce521ba6010289993b3cb9b38a31ce4c95998d00a705e3516ade8e5875b74eea9f605fa14108e03ba5bf83ff9bf9a
+  languageName: node
+  linkType: hard
+
 "clsx@npm:^1.1.1":
   version: 1.1.1
   resolution: "clsx@npm:1.1.1"
@@ -12501,6 +12522,7 @@ __metadata:
     apexcharts: ^3.37.0
     axios: ^1.4.0
     change-case: ^4.1.2
+    cloudinary-react: ^1.8.1
     date-fns: ^2.29.3
     dayjs: ^1.11.9
     dotenv: ^16.3.1
