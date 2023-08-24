@@ -7,7 +7,8 @@ const initialState = {
   usdtPrice: 0,
   carbonAmount: 0,
   createdAt: '',
-  createdBy: ''
+  createdBy: '',
+  avatar: ''
 }
 
 const certificateSlice = createSlice({
@@ -15,7 +16,7 @@ const certificateSlice = createSlice({
   initialState,
   reducers: {
     setCertificate: (state, action) => {
-      const { id, name, imageUrl, usdtPrice, carbonAmount, createdAt, createdBy } = action.payload;
+      const { id, name, imageUrl, usdtPrice, carbonAmount, createdAt, createdBy, avatar } = action.payload;
       state.id = id;
       state.name = name;
       state.imageUrl = imageUrl;
@@ -23,6 +24,7 @@ const certificateSlice = createSlice({
       state.carbonAmount = carbonAmount;
       state.createdAt = createdAt;
       state.createdBy = createdBy;
+      state.avatar = avatar;
     },
     clearCertificate: (state) => {
       state.id = '';
@@ -32,6 +34,7 @@ const certificateSlice = createSlice({
       state.carbonAmount = 0;
       state.createdAt = '';
       state.createdBy = '';
+      state.avatar = ''
     }
   }
 })

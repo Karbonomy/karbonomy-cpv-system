@@ -7,7 +7,8 @@ const certificates = [...Array(23)].map((_, index) => ({
   usdtPrice: parseFloat(faker.finance.amount(0, 1000, 2)),
   carbonAmount: parseFloat(faker.finance.amount(0, 1000, 2)),
   createdAt: faker.date.recent().toISOString(),
-  createdBy: faker.name.firstName()
+  createdBy: faker.name.firstName(),
+  avatar: `/assets/images/avatars/avatar_${index + 1}.jpg`,
 }));
 
 export default certificates;
