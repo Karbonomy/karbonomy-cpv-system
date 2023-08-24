@@ -16,10 +16,23 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
 import { FormProvider as Form, useForm } from 'react-hook-form';
-import { fileToBase64 } from '../../utils/fileUltils'
+// import { fileToBase64 } from '../../utils/fileUltils'
 import Empty from '../../assets/images/empty.jpeg';
+import UploadWidget from '../../components/UploadWidget/UploadWidget';
 
 export default function CreateProject() {
+    const [url, updateUrl] = useState();
+    const [error, updateError] = useState();
+    function handleOnUpload(error, result, widget) {
+        if (error) {
+            updateError(error);
+            widget.close({
+                quiet: true
+            });
+            return;
+        }
+        updateUrl(result?.info?.secure_url);
+    }
     const theme = createTheme({
         components: {
             MuiFormHelperText: {
@@ -39,20 +52,20 @@ export default function CreateProject() {
         navigate('/projects')
     }
 
-    const onChangeFile = async (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        const file = event.target.files[0];
-        setFileContent(await fileToBase64(file))
-        setFile(URL.createObjectURL(file))
-        const arrValue = event.target.value.split('\\')
-        setFileName(arrValue[arrValue.length - 1])
-    }
+    // const onChangeFile = async (event) => {
+    //     event.stopPropagation();
+    //     event.preventDefault();
+    //     const file = event.target.files[0];
+    //     setFileContent(await fileToBase64(file))
+    //     setFile(URL.createObjectURL(file))
+    //     const arrValue = event.target.value.split('\\')
+    //     setFileName(arrValue[arrValue.length - 1])
+    // }
 
     const [isSubmit, setIsSubmit] = useState(false);
-    const [fileContent, setFileContent] = useState('');
-    const [file, setFile] = useState('');
-    const [fileName, setFileName] = useState('');
+    // const [fileContent, setFileContent] = useState('');
+    // const [file, setFile] = useState('');
+    // const [fileName, setFileName] = useState('');
 
     const CreateSchema = Yup.object().shape({
         name: Yup.string().required('please enter name'),
@@ -80,9 +93,7 @@ export default function CreateProject() {
             start_date: data.start_date,
             end_date: data.end_date,
             description: data.description,
-            file: { file },
-            img: { fileName },
-            fileContent,
+            file: { url },
         };
         console.log(datas)
     }
@@ -209,23 +220,28 @@ export default function CreateProject() {
                             noValidate
                             autoComplete="off"
                         >
-                            <label htmlFor='img' className='form-input_title'>
-                                <div className='form-img' style={{ width: '447px' }}>
-                                    <p className='label'>Image</p>
-                                    <img height={110} style={{ cursor: 'pointer' }} alt="#" src={file || Empty} />
-                                </div>
-                            </label>
-                            <TextField
-                                {...register("img")}
-                                type="file"
-                                name="img"
-                                id='img'
-                                style={{ opacity: '0', width: 0, height: 0, cursor: 'pointer' }}
-                                onChange={onChangeFile}
-                            />
+
+                            <UploadWidget onUpload={handleOnUpload}>
+                                {({ open }) => {
+                                    function handleOnClick(e) {
+                                        e.preventDefault();
+                                        open();
+                                    }
+                                    return (
+                                        <label htmlFor='img' className='form-input_title'>
+                                            <div className='form-img' style={{ width: '447px' }}>
+                                                <p className='label'>Image</p>
+                                                <img onClick={handleOnClick} height={110} style={{ cursor: 'pointer' }} alt="#" src={url || Empty} />
+                                            </div>
+                                        </label>
+                                    )
+                                }}
+                            </UploadWidget>
+                            {error && <p>{error}</p>}
+                            {/* <img src={ url } alt="Uploaded resource" /> */}
 
                             <TextField
-                                style={{ marginLeft: '20px', }}
+                                style={{ marginLeft: '35px', }}
                                 {...register("description")}
                                 id="description"
                                 name="description"
