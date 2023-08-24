@@ -26,7 +26,9 @@ import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import NFTCard from "../../components/common/Card";
 // mock data
 import certificates from "../../_mock/certificate";
-// navigate
+// store
+import { useDispatch } from "react-redux";
+import { setCertificate, clearCertificate } from "../../features/certificateSlice";
 
 function Marketplace() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,6 +37,14 @@ function Marketplace() {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [tempPriceRange, setTempPriceRange] = useState(priceRange);
+
+  const dispatch = useDispatch();
+
+  const handleCardClick = (certificate) => {
+    dispatch(clearCertificate())
+
+    dispatch(setCertificate(certificate))
+  }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -45,7 +55,7 @@ function Marketplace() {
   };
 
   const handleClear = () => {
-    setTempPriceRange([0, 100]); // Or whatever your default values are
+    setTempPriceRange([0, 100]);
   };
 
   const handleApply = () => {
@@ -168,7 +178,9 @@ function Marketplace() {
                   imageUrl={certificate.imageUrl}
                   name={certificate.name}
                   id={certificate.id}
-                  carbonPrice={certificate.carbonPrice}
+                  carbonAmount={certificate.carbonAmount}
+                  usdtPrice={certificate.usdtPrice}
+                  onClick={() => handleCardClick(certificate)}
                 />
               </Grid>
             ))
