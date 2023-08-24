@@ -70,25 +70,26 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" className='header'>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: '20rem' }}>
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' }, cursor: 'pointer' }}
+            className='logo-name'
             onClick={handleBackToDashboard}
           >
-            KARBONOMY
+            KARBONOMY <span className='logo-right'>&nbsp;NFT</span>
           </Typography>
 
-          <Search sx={{ flexGrow: '2' }}>
+          <Search className='search-bar' sx={{ flexGrow: '2' }}>
             <SearchIconWrapper>
-              <SearchIcon />
+              <SearchIcon  className='search-icon'/>
             </SearchIconWrapper>
             <StyledInputBase
               sx={{ width: '100%' }}
-              placeholder="Search certificate"
+              placeholder="Search ...."
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>

@@ -37,6 +37,7 @@ export default function WalletButton({ wallet, isConnected }) {
       </Button>
     ) : (
       <Button
+        className="btn-connect"
         variant='contained'
         startIcon={<AccountBalanceWalletIcon />}
         onClick={connectWallet}

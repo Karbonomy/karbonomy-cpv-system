@@ -29,6 +29,8 @@ import certificates from "../../_mock/certificate";
 // store
 import { useDispatch } from "react-redux";
 import { setCertificate, clearCertificate } from "../../features/certificateSlice";
+//css 
+import '../../assets/css/market.css';
 
 function Marketplace() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -76,7 +78,9 @@ function Marketplace() {
       <Helmet>
         <title>Marketplace</title>
       </Helmet>
-      <Container maxWidth="100%">
+      <h1 className="page-header">Marketplace</h1>
+      <Container className="container">
+
         <Popover
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
@@ -121,10 +125,11 @@ function Marketplace() {
             <FormControl fullWidth variant="outlined">
               <InputLabel>Sort By</InputLabel>
               <Select
+                className="btn-custom"
                 value={sortOrder}
                 onChange={handleSortOrderChange}
                 startAdornment={
-                  <ListItemIcon>
+                  <ListItemIcon >
                     <InsertChartOutlinedOutlinedIcon />
                   </ListItemIcon>
                 }
@@ -171,17 +176,22 @@ function Marketplace() {
               <Grid
                 item xs={12}
                 sm={6}
-                md={3}
+                md={4}
+                className="card-nft"
                 key={certificate.id}
               >
-                <NFTCard
-                  imageUrl={certificate.imageUrl}
-                  name={certificate.name}
-                  id={certificate.id}
-                  carbonAmount={certificate.carbonAmount}
-                  usdtPrice={certificate.usdtPrice}
-                  onClick={() => handleCardClick(certificate)}
-                />
+                <div className="card">
+                  <NFTCard
+                    imageUrl={certificate.imageUrl}
+                    name={certificate.name}
+                    id={certificate.id}
+                    carbonAmount={certificate.carbonAmount}
+                    usdtPrice={certificate.usdtPrice}
+                    onClick={() => handleCardClick(certificate)}
+                  />
+                  <div class="back-card"></div>
+                  <div class="thid-card"></div>
+                </div>
               </Grid>
             ))
           }
