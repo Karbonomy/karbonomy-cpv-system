@@ -9,15 +9,12 @@ import {
     Stack,
     Paper,
     Button,
-    Popover,
     Checkbox,
     TableRow,
-    MenuItem,
     TableBody,
     TableCell,
     Container,
     Typography,
-    IconButton,
     TableContainer,
     TablePagination,
     Link
@@ -73,7 +70,6 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function ProjectPage() {
-    const [open, setOpen] = useState(null);
 
     const [page, setPage] = useState(0);
 
@@ -86,14 +82,6 @@ export default function ProjectPage() {
     const [filterName, setFilterName] = useState('');
 
     const [rowsPerPage, setRowsPerPage] = useState(5);
-
-    const handleOpenMenu = (event) => {
-        setOpen(event.currentTarget);
-    };
-
-    const handleCloseMenu = () => {
-        setOpen(null);
-    };
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -207,9 +195,9 @@ export default function ProjectPage() {
 
 
                                                 <TableCell align="right">
-                                                    <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                                                        <Iconify icon={'eva:more-vertical-fill'} />
-                                                    </IconButton>
+                                                    <Button variant="outlined">
+                                                        <Iconify icon={'ic:baseline-token'} />token sharding
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -259,30 +247,6 @@ export default function ProjectPage() {
                     />
                 </Card>
             </Container>
-
-            <Popover
-                open={Boolean(open)}
-                anchorEl={open}
-                onClose={handleCloseMenu}
-                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                PaperProps={{
-                    sx: {
-                        p: 1,
-                        width: 140,
-                        '& .MuiMenuItem-root': {
-                            px: 1,
-                            typography: 'body2',
-                            borderRadius: 0.75,
-                        },
-                    },
-                }}
-            >
-                <MenuItem>
-                <Iconify icon={'eva:eye-fill'} sx={{ mr: 2 }}/>
-                    Detail
-                </MenuItem>
-            </Popover>
         </>
     );
 }
