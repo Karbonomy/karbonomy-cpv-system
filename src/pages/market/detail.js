@@ -5,7 +5,6 @@ import {
   Button,
   Typography,
   Avatar,
-  InputLabel,
   Container,
   Grid,
   Box,
@@ -90,7 +89,7 @@ export default function CertificateDetail() {
                 </Box>
               </Box>
 
-              <Card sx={{ display: 'flex', alignItems: 'center', padding: '16px', marginTop: '2rem' }}>
+              <Card sx={{ display: 'flex', alignItems: 'center', padding: '12px', marginTop: '2rem' }}>
                 <Box
                   style={{
                     flex: 1,
@@ -147,28 +146,22 @@ export default function CertificateDetail() {
             </Box>
 
             <Box>
-              <Typography variant="h4">Description</Typography>
+              <Typography variant="h5">Description</Typography>
               <Typography>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </Typography>
-              <Typography variant="h4" component="span" style={{ display: 'inline-block', marginRight: '8px' }}>
+              <Typography variant="h5" component="span" style={{ display: 'inline-block', marginRight: '8px' }}>
                 Address:
               </Typography>
               <Typography component="span" style={{ display: 'inline-block', fontSize: '1.4rem' }}>
                 {address}
               </Typography>
-              {/* <Typography variant="h4" component="span" style={{ display: 'inline-block', marginRight: '8px' }}>
-                Carbon Amount:
-              </Typography>
-              <Typography component="span" style={{ display: 'inline-block', fontSize: '1.4rem' }}>
-                {carbonAmount} CARBON
-              </Typography> */}
             </Box>
 
 
             <Box mt={3}>
               <Box style={{ width: '100%', fontSize: '2rem', borderBottom: '1px solid gray', paddingBottom: '8px', marginBottom: '16px' }}>
-                <InputLabel style={{ fontSize: '1.5rem', marginBottom: '8px', display: 'block' }}>Current Price</InputLabel>
+                <Typography style={{ fontSize: '1.8rem', marginBottom: '8px', display: 'block', fontWeight: 'bold' }}>Current Price</Typography>
 
                 <Typography variant="h3" component="span" style={{ color: 'rgb(34 162 237)', display: 'block', marginBottom: '8px' }}>
                   {usdtPrice} USDT
