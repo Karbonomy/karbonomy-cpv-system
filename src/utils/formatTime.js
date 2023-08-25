@@ -21,7 +21,22 @@ export function fTimestamp(date) {
 export function fToNow(date) {
   return date
     ? formatDistanceToNow(new Date(date), {
-        addSuffix: true,
-      })
+      addSuffix: true,
+    })
     : '';
+}
+
+export function calculateTimeLeft(startDate, endDate) {
+  const totalSeconds = (new Date(endDate) - new Date(startDate)) / 1000;
+  const days = Math.floor(totalSeconds / (3600 * 24));
+  const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+
+  return {
+    days,
+    hours,
+    minutes,
+    seconds
+  };
 }

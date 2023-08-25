@@ -4,7 +4,7 @@ import { Outlet } from "react-router";
 import Header from "./header";
 // mui
 import { Box } from "@mui/material";
-import Footer from "./footer.js";
+import Footer from "./footer";
 
 export default function MarketLayout() {
   return (
