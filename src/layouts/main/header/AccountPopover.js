@@ -4,6 +4,8 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import account from '../../../_mock/account';
+// navigate
+import { useNavigate } from 'react-router';
 
 // ----------------------------------------------------------------------
 
@@ -11,20 +13,24 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
+    path: '/'
   },
   {
     label: 'Profile',
     icon: 'eva:person-fill',
+    path: '/company-detail'
   },
   {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
+    path: '/'
   },
 ];
 
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -34,6 +40,11 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+
+  const handleMenuClick = (path) => {
+    navigate(path);
+    handleClose();
+  }
 
   return (
     <>
@@ -89,7 +100,7 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
+            <MenuItem key={option.label} onClick={() => handleMenuClick(option.path)}>
               {option.label}
             </MenuItem>
           ))}
