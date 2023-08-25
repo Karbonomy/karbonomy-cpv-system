@@ -8,6 +8,7 @@ import { bgBlur } from '../../../utils/cssStyles';
 import Iconify from '../../../components/iconify';
 import Searchbar from './Searchbar';
 import WalletButton from '../../../components/common/ConnectWalletButton';
+import AccountPopover from './AccountPopover';
 
 const NAV_WIDTH = 280;
 const HEADER_MOBILE = 64;
@@ -69,6 +70,7 @@ export default function Header({ onOpenNav }) {
             sm: 1,
           }}
         >
+          <AccountPopover />
           <WalletButton wallet={wallet} isConnected={isConnected} />
         </Stack>
       </StyledToolbar>

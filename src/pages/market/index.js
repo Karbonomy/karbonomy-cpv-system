@@ -189,8 +189,8 @@ function Marketplace() {
                     usdtPrice={certificate.usdtPrice}
                     onClick={() => handleCardClick(certificate)}
                   />
-                  <div class="back-card"></div>
-                  <div class="thid-card"></div>
+                  <div className="back-card"></div>
+                  <div className="thid-card"></div>
                 </div>
               </Grid>
             ))
