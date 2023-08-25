@@ -13,6 +13,7 @@ import CreateProject from './pages/projects/create';
 import Marketplace from './pages/market';
 import CertificateDetail from './pages/market/detail'
 import CustomerWaiting from './pages/customer';
+import CompanyDetail from './pages/company/detail';
 
 // ----------------------------------------------------------------------
 
@@ -26,8 +27,9 @@ export default function Router() {
         { path: 'companys', element: <UserPage /> },
         { path: 'projects', element: <ProjectPage /> },
         { path: 'projects/create', element: <CreateProject /> },
-        { path: 'customer', element: <CustomerWaiting/>},
+        { path: 'customer', element: <CustomerWaiting /> },
         { path: 'main', element: <Main /> },
+        { path: 'company-detail', element: <CompanyDetail /> }
       ],
     },
     {
