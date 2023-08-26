@@ -112,7 +112,11 @@ export default function CreateProject() {
 
         axios.post(baseURL + "create", datas).then((res) => {
             console.log(res);
-            navigate('/projects');
+            navigate('/projects', {
+                state: {
+                    message: "Minted carbon certificates successfully"
+                }
+            });
         })
     }
 

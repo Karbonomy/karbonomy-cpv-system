@@ -72,7 +72,11 @@ export default function CertificateDetail() {
   function handleSubmit() {
     axios.post(baseURL, datas).then((res) => {
       console.log(res);
-      navigate('/marketplace');
+      navigate('/marketplace', {
+        state: {
+          message: "Buy carbon certificates successfully"
+        }
+      });
     })
   }
 
