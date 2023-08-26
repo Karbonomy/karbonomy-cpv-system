@@ -17,11 +17,14 @@ import {
     Typography,
     TableContainer,
     TablePagination,
-    Link
+    Link,
+    Snackbar,
+    Alert
 } from '@mui/material';
 // components
 import Iconify from '../../components/iconify';
 import Scrollbar from '../../components/scrollbar';
+import ConfirmModal from '../../components/common/ConfirmModal';
 // sections
 import { ProjectListHead, ProjectListToolbar } from '../../sections/@dashboard/projects';
 // mock
@@ -89,6 +92,26 @@ export default function ProjectPage() {
 
     const [datas, setData] = useState([]);
 
+    const [shardedProjects, setShardedProjects] = useState([]);
+    const [showAlert, setShowAlert] = useState(false);
+
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [currentProjectId, setCurrentProjectId] = useState(null);
+
+    const handleTokenShardingClick = (projectId, projectName) => {
+        setCurrentProjectId({ id: projectId, name: projectName });
+        setShowConfirmModal(true);
+        setShardedProjects(prev => [...prev, projectId]);
+        setShowAlert(true);
+    };
+
+    const handleConfirmSharding = () => {
+        setShardedProjects(prev => [...prev, currentProjectId]);
+        setShowAlert(true);
+        setShowConfirmModal(false);
+    };
+
+
     useEffect(() => {
         axios.get(baseURL).then((res) => {
             setData(res.data);
@@ -152,6 +175,24 @@ export default function ProjectPage() {
             </Helmet>
 
             <Container>
+                <Snackbar
+                    open={showAlert}
+                    autoHideDuration={2000}
+                    severity="success"
+                    onClose={() => setShowAlert(false)}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                    <Alert onClose={() => setShowAlert(false)} severity="success" sx={{ width: '100%' }}>
+                        Token sharding successful!
+                    </Alert>
+                </Snackbar>
+                <ConfirmModal
+                    open={showConfirmModal}
+                    title="Token Sharding"
+                    projectName={currentProjectId?.name}
+                    onConfirm={handleConfirmSharding}
+                    onCancel={() => setShowConfirmModal(false)}
+                />
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Typography variant="h4" gutterBottom>
                         Projects
@@ -209,7 +250,11 @@ export default function ProjectPage() {
 
 
                                                 <TableCell align="right">
-                                                    <Button variant="outlined">
+                                                    <Button
+                                                        variant="outlined"
+                                                        onClick={() => handleTokenShardingClick(id, name)}
+                                                        disabled={shardedProjects.includes(id)}
+                                                    >
                                                         <Iconify icon={'ic:baseline-token'} />token sharding
                                                     </Button>
                                                 </TableCell>
