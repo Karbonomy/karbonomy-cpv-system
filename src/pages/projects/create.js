@@ -10,6 +10,7 @@ import {
     Stack,
     Button,
     Typography,
+    Card,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -21,7 +22,7 @@ import { FormProvider as Form, useForm } from 'react-hook-form';
 import Empty from '../../assets/images/empty.jpeg';
 import UploadWidget from '../../components/UploadWidget/UploadWidget';
 import axios from "axios";
-
+import '../../assets/css/create.css';
 const baseURL = "http://localhost:3333/projectNfts/";
 
 export default function CreateProject() {
@@ -54,11 +55,11 @@ export default function CreateProject() {
 
     const returnPage = async (event) => {
         event.preventDefault()
-        navigate('/projects',  {
+        navigate('/projects', {
             state: {
-              result: true,
+                result: true,
             }
-          })
+        })
     }
 
     // const onChangeFile = async (event) => {
@@ -94,8 +95,8 @@ export default function CreateProject() {
 
     const onSubmit = async (data) => {
         setIsSubmit(true);
-        let image = {url}
-        let wallet_company = {wallet};
+        let image = { url }
+        let wallet_company = { wallet };
         const datas = {
             name: data.name,
             wallet: wallet_company.wallet,
@@ -106,7 +107,7 @@ export default function CreateProject() {
             amount: data.amount,
             price: data.price,
             description: data.description,
-            image:  image.url ,
+            image: image.url,
         };
         console.log(datas)
 
@@ -132,154 +133,159 @@ export default function CreateProject() {
                     </Typography>
                 </Stack>
 
-                <Form>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Box
-                            sx={{
-                                '& .MuiTextField-root': { mb: 2, mt: 2, mr: 2, width: '60ch', },
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <TextField
-                                {...register("name")}
-                                helperText={errors.name?.message}
-                                name="name"
-                                id="name"
-                                label="Name *"
-                            />
+                <Card className='card-custom'>
 
-                            <TextField
-                                {...register("organization")}
-                                helperText={errors.organization?.message}
-                                name="organization"
-                                id="organization"
-                                label="Organization *"
-                            />
-                        </Box>
-
-                        <Box
-                            sx={{
-                                '& .MuiTextField-root': { mb: 2, mt: 2, mr: 2, width: '60ch', },
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <TextField
-                                {...register("address")}
-                                helperText={errors.address?.message}
-                                name="address"
-                                id="address"
-                                label="Address *"
-                            />
-
-                            <TextField
-                                {...register("mail_address")}
-                                helperText={errors.mail_address?.message}
-                                name="mail_address"
-                                id="mail_address"
-                                label="Mail Address *"
-                            />
-                        </Box>
-
-                        <Box
-                            sx={{
-                                '& .MuiTextField-root': { mb: 2, mt: 2, mr: 2, width: '60ch', },
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-
-                            <TextField
-                                {...register("start_date")}
-                                name="start_date"
-                                id="start_date"
-                                label="Start Date"
-                                InputLabelProps={{ shrink: true }}
-                                type='date'
-                            />
-
-                            <TextField
-                                {...register("end_date")}
-                                name="end_date"
-                                InputLabelProps={{ shrink: true }}
-                                label="End Date"
-                                id="end_date"
-                                type='date'
-                            />
-                        </Box>
-
-                        <Box
-                            sx={{
-                                '& .MuiTextField-root': { mb: 2, mt: 2, mr: 2, width: '60ch', },
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-
-                            <TextField
-                                {...register("amount")}
-                                name="amount"
-                                id="amount"
-                                type='number'
-                                label="Amount"
-                            />
-
-                            <TextField
-                                {...register("price")}
-                                name="price"
-                                id="price"
-                                type='number'
-                                label="Price"
-                            />
-                        </Box>
-
-                        <Box
-                            sx={{
-                                '& .MuiTextField-root': { mb: 2, mt: 2, mr: 2, width: '60ch', },
-                            }}
-                            style={{ display: 'flex' }}
-                            noValidate
-                            autoComplete="off"
-                        >
-
-                            <UploadWidget onUpload={handleOnUpload}>
-                                {({ open }) => {
-                                    function handleOnClick(e) {
-                                        e.preventDefault();
-                                        open();
-                                    }
-                                    return (
-                                        <label htmlFor='img' className='form-input_title'>
-                                            <div className='form-img' style={{ width: '447px' }}>
-                                                <p className='label'>Image</p>
-                                                <img onClick={handleOnClick} height={110} style={{ cursor: 'pointer' }} alt="#" src={url || Empty} />
-                                            </div>
-                                        </label>
-                                    )
+                    <Form>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <Box
+                                sx={{
+                                    '& .MuiTextField-root': { mb: 2, mt: 2, mr: 2, width: '60ch', },
                                 }}
-                            </UploadWidget>
-                            {error && <p>{error}</p>}
-                            {/* <img src={ url } alt="Uploaded resource" /> */}
+                                noValidate
+                                autoComplete="off"
+                            >
+                                <TextField
+                                    className='form-input'
+                                    {...register("name")}
+                                    helperText={errors.name?.message}
+                                    name="name"
+                                    id="name"
+                                    label="Name *"
+                                />
 
-                            <TextField
-                                style={{ marginLeft: '35px', }}
-                                {...register("description")}
-                                id="description"
-                                name="description"
-                                label="Description"
-                                multiline
-                                rows={5}
-                            />
+                                <TextField
+                                    {...register("organization")}
+                                    helperText={errors.organization?.message}
+                                    name="organization"
+                                    id="organization"
+                                    label="Organization *"
+                                />
+                            </Box>
 
-                        </Box>
+                            <Box
+                                sx={{
+                                    '& .MuiTextField-root': { mb: 2, mt: 2, mr: 2, width: '60ch', },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                            >
+                                <TextField
+                                    {...register("address")}
+                                    helperText={errors.address?.message}
+                                    name="address"
+                                    id="address"
+                                    label="Address *"
+                                />
 
-                        <Stack spacing={2} alignItems="center" justifyContent="center" direction="row" m={2}>
-                            <Button onClick={returnPage} variant="outlined">Back</Button>
-                            <LoadingButton loading={isSubmit} type='submit' variant="contained">Submit</LoadingButton>
-                        </Stack>
-                    </form>
-                </Form>
+                                <TextField
+                                    {...register("mail_address")}
+                                    helperText={errors.mail_address?.message}
+                                    name="mail_address"
+                                    id="mail_address"
+                                    label="Mail Address *"
+                                />
+                            </Box>
+
+                            <Box
+                                sx={{
+                                    '& .MuiTextField-root': { mb: 2, mt: 2, mr: 2, width: '60ch', },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                            >
+
+                                <TextField
+                                    {...register("start_date")}
+                                    name="start_date"
+                                    id="start_date"
+                                    label="Start Date"
+                                    InputLabelProps={{ shrink: true }}
+                                    type='date'
+                                />
+
+                                <TextField
+                                    {...register("end_date")}
+                                    name="end_date"
+                                    InputLabelProps={{ shrink: true }}
+                                    label="End Date"
+                                    id="end_date"
+                                    type='date'
+                                />
+                            </Box>
+
+                            <Box
+                                sx={{
+                                    '& .MuiTextField-root': { mb: 2, mt: 2, mr: 2, width: '60ch', },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                            >
+
+                                <TextField
+                                    {...register("amount")}
+                                    name="amount"
+                                    id="amount"
+                                    type='number'
+                                    label="Amount"
+                                />
+
+                                <TextField
+                                    {...register("price")}
+                                    name="price"
+                                    id="price"
+                                    type='number'
+                                    label="Price"
+                                />
+                            </Box>
+
+                            <Box
+                                sx={{
+                                    '& .MuiTextField-root': { mb: 2, mt: 2, mr: 2, width: '60ch'},
+                                }}
+                                style={{ display: 'flex', justifyContent: 'center' }}
+                                noValidate
+                                autoComplete="off"
+                            >
+
+                                <UploadWidget onUpload={handleOnUpload}>
+                                    {({ open }) => {
+                                        function handleOnClick(e) {
+                                            e.preventDefault();
+                                            open();
+                                        }
+                                        return (
+                                            <label htmlFor='img' className='form-input_title'>
+                                                <div className='form-img' style={{ width: '447px' }}>
+                                                    <p className='label' style={{ textAlign: 'left' }}>Image</p>
+                                                    <img onClick={handleOnClick} height={110} style={{ cursor: 'pointer' }} alt="#" src={url || Empty} />
+                                                </div>
+                                            </label>
+                                        )
+                                    }}
+                                </UploadWidget>
+                                {error && <p>{error}</p>}
+                                {/* <img src={ url } alt="Uploaded resource" /> */}
+
+                                <TextField
+                                    style={{ marginLeft: '35px', }}
+                                    {...register("description")}
+                                    id="description"
+                                    name="description"
+                                    label="Description"
+                                    multiline
+                                    rows={5}
+                                />
+
+                            </Box>
+
+                            <Stack spacing={2} alignItems="center" justifyContent="center" direction="row" m={2}>
+                                <Button onClick={returnPage} variant="outlined">Back</Button>
+                                <LoadingButton loading={isSubmit} type='submit' variant="contained">Submit</LoadingButton>
+                            </Stack>
+                        </form>
+                    </Form>
+                </Card>
+
             </Container >
         </ThemeProvider>
     )

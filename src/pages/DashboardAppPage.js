@@ -50,6 +50,7 @@ export default function DashboardAppPage() {
           </Typography>
           <Link to="/marketplace">
             <Button
+              color="secondary"
               sx={{ height: '40px' }}
               variant='contained'
               endIcon={<ArrowForwardIcon />}
@@ -65,19 +66,19 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="BTC" total={507790000000} icon={'logos:bitcoin'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="ETH" total={198230000000} color="info" icon={'logos:ethereum-color'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            <AppWidgetSummary title="USDT" total={172331500000} color="warning" icon={'simple-icons:tether'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+            <AppWidgetSummary title="BNB" total={394590000000} color="error" icon={'cryptocurrency-color:bnb'} />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>

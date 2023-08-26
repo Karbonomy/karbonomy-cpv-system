@@ -1,0 +1,16 @@
+.card-custom {
+    text-align: center;
+    border-radius: 10px;
+}
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+    border-radius: 12px;
+}
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-multiline.css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root {
+    border-radius: 12px;
+}
+
+form {
+    margin-top: 40px;
+}
