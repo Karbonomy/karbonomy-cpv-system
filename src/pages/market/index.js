@@ -29,6 +29,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import NFTCard from "../../components/common/Card";
 // mock data
 // import certificates from "../../_mock/certificate";
+import { useSelector } from "react-redux";
 
 
 // store
@@ -73,9 +74,10 @@ function Marketplace() {
   const [tempPriceRange, setTempPriceRange] = useState(priceRange);
 
   const [datas, setData] = useState([]);
+  const { wallet } = useSelector((state) => state.user);
 
   useEffect(() => {
-    axios.get(baseURL).then((res) => {
+    axios.get(baseURL + wallet).then((res) => {
       setData(res.data);
     })
   }, []);

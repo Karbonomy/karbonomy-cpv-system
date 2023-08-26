@@ -158,8 +158,9 @@ export default function ProjectPage() {
     };
 
 
+
     useEffect(() => {
-        axios.get(baseURL).then((res) => {
+        axios.get(baseURL + wallet).then((res) => {
             setData(res.data);
         })
     }, []);
