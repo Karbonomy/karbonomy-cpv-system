@@ -6,6 +6,7 @@ const initialState = {
   wallet: '',
   isConnected: false,
   carbonAmount: 0,
+  projectSharded: []
 }
 
 const userSlice = createSlice({
@@ -13,22 +14,37 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setLoggedInUser: (state, action) => {
-      const { name, email, wallet, carbonAmount } = action.payload;
+      const { name, email, wallet } = action.payload;
       state.name = name;
       state.email = email;
       state.wallet = wallet;
       state.isConnected = true;
-      state.carbonAmount = carbonAmount;
+    },
+    updateCarbonAmount: (state, action) => {
+      state.carbonAmount += action.payload;
+    },
+    updateProjectSharded: (state, action) => {
+      if (!state.projectSharded.includes(action.payload)) {
+        state.projectSharded.push(action.payload)
+      }
+    },
+    isProjectSharded: (state, action) => {
+      return state.projectSharded.includes(action.payload);
     },
     clearLoggedInUser: (state) => {
       state.email = '';
       state.name = '';
       state.wallet = '';
       state.isConnected = false;
-      state.carbonAmount = 0;
     }
   }
 })
 
-export const { setLoggedInUser, clearLoggedInUser } = userSlice.actions;
+export const {
+  setLoggedInUser,
+  updateCarbonAmount,
+  updateProjectSharded,
+  isProjectSharded,
+  clearLoggedInUser
+} = userSlice.actions;
 export default userSlice.reducer;
