@@ -1,3 +1,4 @@
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 // @mui
@@ -21,11 +22,20 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
+// store
+// import { useSelector } from 'react-redux';
+// smart contracts
+import { callMintFunction } from '../polkadot-abi';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
   const theme = useTheme();
+  // const { wallet } = useSelector((state) => state.user)
+
+  const handleMintFunction = () => {
+    callMintFunction()
+  }
 
   return (
     <>
@@ -44,6 +54,7 @@ export default function DashboardAppPage() {
               variant='contained'
               endIcon={<ArrowForwardIcon />}
               to="/marketplace"
+              onClick={handleMintFunction}
             >
               Go to marketplace
             </Button>
