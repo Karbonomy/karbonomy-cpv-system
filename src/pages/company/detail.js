@@ -12,7 +12,7 @@ import {
 import { useSelector } from "react-redux";
 
 function CompanyDetail() {
-  const { wallet } = useSelector((state) => state.user);
+  const { wallet, carbonAmount } = useSelector((state) => state.user);
 
   return (
     <>
@@ -35,7 +35,7 @@ function CompanyDetail() {
               <Grid container spacing={2} width="70%">
                 <Grid item xs={6} md={3}>
                   <Typography variant="body2" color="textSecondary">Carbon</Typography>
-                  <Typography sx={{ fontWeight: '600' }}>100</Typography>
+                  <Typography sx={{ fontWeight: '600' }}>{carbonAmount}</Typography>
                 </Grid>
                 <Grid item xs={6} md={3}>
                   <Typography variant="body2" color="textSecondary">USDT</Typography>

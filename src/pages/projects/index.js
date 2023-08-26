@@ -33,6 +33,9 @@ import 'react-toastify/dist/ReactToastify.css';
 // mock
 import PROJECTS from '../../_mock/projects';
 import axios from "axios";
+// store
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCarbonAmount, updateProjectSharded } from '../../features/userSlice';
 
 const baseURL = "http://localhost:3333/projectNfts/";
 
@@ -103,10 +106,19 @@ export default function ProjectPage() {
     useEffect(() => {
         if (message !== '') {
             notify();
-            
+
         }
-        
+
     });
+
+    const { wallet, projectSharded } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+
+    const handleTokenizeCarbonAmount = (ownerWallet, carbonAmount) => {
+        if (wallet === ownerWallet) {
+            dispatch(updateCarbonAmount(parseInt(carbonAmount)));
+        }
+    }
 
     const [page, setPage] = useState(0);
 
@@ -122,16 +134,19 @@ export default function ProjectPage() {
 
     const [datas, setData] = useState([]);
 
+    // eslint-disable-next-line no-unused-vars
     const [shardedProjects, setShardedProjects] = useState([]);
     const [showAlert, setShowAlert] = useState(false);
 
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [currentProjectId, setCurrentProjectId] = useState(null);
 
-    const handleTokenShardingClick = (projectId, projectName) => {
+    const handleTokenShardingClick = (projectId, projectName, ownerWallet, carbonAmount) => {
         setCurrentProjectId({ id: projectId, name: projectName });
         setShowConfirmModal(true);
         setShardedProjects(prev => [...prev, projectId]);
+        handleTokenizeCarbonAmount(ownerWallet, carbonAmount);
+        dispatch(updateProjectSharded(projectId));
         // setShowAlert(true);
     };
 
@@ -288,8 +303,8 @@ export default function ProjectPage() {
                                                 <TableCell align="right">
                                                     <Button
                                                         variant="outlined"
-                                                        onClick={() => handleTokenShardingClick(id, name)}
-                                                        disabled={shardedProjects.includes(id)}
+                                                        onClick={() => handleTokenShardingClick(id, name, wallet, amount)}
+                                                        disabled={projectSharded.includes(id)}
                                                     >
                                                         <Iconify icon={'ic:baseline-token'} />token sharding
                                                     </Button>
