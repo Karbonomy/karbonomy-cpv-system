@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 // @mui
 import {
     Card,
@@ -19,7 +19,8 @@ import {
     TablePagination,
     Link,
     Snackbar,
-    Alert
+    Alert,
+    Hidden
 } from '@mui/material';
 // components
 import Iconify from '../../components/iconify';
@@ -27,6 +28,8 @@ import Scrollbar from '../../components/scrollbar';
 import ConfirmModal from '../../components/common/ConfirmModal';
 // sections
 import { ProjectListHead, ProjectListToolbar } from '../../sections/@dashboard/projects';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // mock
 import PROJECTS from '../../_mock/projects';
 import axios from "axios";
@@ -77,6 +80,33 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function ProjectPage() {
+    const [message, setMessage] = useState(useLocation()?.state?.message ?? '')
+    const test = () => {
+        setMessage("red");
+    }
+    const notify = () => {
+        toast.success(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+
+        setMessage('');
+
+    }
+
+    useEffect(() => {
+        if (message !== '') {
+            notify();
+            
+        }
+        
+    });
 
     const [page, setPage] = useState(0);
 
@@ -102,12 +132,13 @@ export default function ProjectPage() {
         setCurrentProjectId({ id: projectId, name: projectName });
         setShowConfirmModal(true);
         setShardedProjects(prev => [...prev, projectId]);
-        setShowAlert(true);
+        // setShowAlert(true);
     };
 
     const handleConfirmSharding = () => {
         setShardedProjects(prev => [...prev, currentProjectId]);
-        setShowAlert(true);
+
+        setMessage('Token sharding successful!');
         setShowConfirmModal(false);
     };
 
@@ -193,6 +224,11 @@ export default function ProjectPage() {
                     onConfirm={handleConfirmSharding}
                     onCancel={() => setShowConfirmModal(false)}
                 />
+                <div>
+                    <Hidden onClick={test}>
+                    </Hidden>
+                    <ToastContainer limit={1} />
+                </div>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Typography variant="h4" gutterBottom>
                         Projects

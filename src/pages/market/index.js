@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 // mui
 import {
@@ -22,6 +23,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import InsertChartOutlinedOutlinedIcon from '@mui/icons-material/InsertChartOutlinedOutlined';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // components
 import NFTCard from "../../components/common/Card";
 // mock data
@@ -39,6 +42,29 @@ import axios from "axios";
 const baseURL = "http://localhost:3333/projectNfts/";
 
 function Marketplace() {
+  const [message, setMessage] = useState(useLocation()?.state?.message ?? '')
+  const notify = () => {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+    setMessage('');
+
+  }
+  useEffect(() => {
+    if (message !== '') {
+      notify();
+
+    }
+
+  });
   const [searchTerm, setSearchTerm] = useState('');
   const [priceRange, setPriceRange] = useState([20, 50]);
   const [sortOrder, setSortOrder] = useState('lowHigh');
@@ -50,9 +76,9 @@ function Marketplace() {
 
   useEffect(() => {
     axios.get(baseURL).then((res) => {
-        setData(res.data);
+      setData(res.data);
     })
-}, []);
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -92,6 +118,7 @@ function Marketplace() {
       <Helmet>
         <title>Marketplace</title>
       </Helmet>
+      <ToastContainer limit={1} />
       <h1 className="page-header">Marketplace</h1>
       <Container className="container">
 
