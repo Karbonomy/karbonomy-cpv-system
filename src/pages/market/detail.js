@@ -12,6 +12,7 @@ import {
   CardMedia,
   LinearProgress
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 // store
 import { useSelector } from "react-redux";
 // utils
@@ -21,6 +22,10 @@ import {
 } from "../../utils/formatTime";
 // components
 import CountDownTimer from "../../components/common/CountDownTimer";
+
+import axios from "axios";
+
+const baseURL = "http://localhost:3333/carbon_market_alarm/create";
 
 function LinearProgressWithLabel(props) {
   return (
@@ -41,22 +46,40 @@ export default function CertificateDetail() {
   const {
     id,
     name,
-    imageUrl,
-    carbonAmount,
-    usdtPrice,
-    createdAt,
+    walletCompany,
     origin,
-    avatar,
+    address,
     startDate,
     endDate,
-    address,
-    progress
+    amount,
+    price,
+    description,
+    image,
+    createdAt,
   } = useSelector((state) => state.certificate)
+  const navigate = useNavigate();
+
+  const { wallet } = useSelector((state) => state.user);
+
+  const datas = {
+    nft_id: id.toString(),
+    price: price,
+    is_approved: false,
+    user_address: wallet,
+    company_address: walletCompany
+  }
+
+  function handleSubmit() {
+    axios.post(baseURL, datas).then((res) => {
+      console.log(res);
+      navigate('/marketplace');
+    })
+  }
 
   return (
     <>
       <Helmet>
-        <title>{name} #{id}</title>
+        <title>Market detail</title>
       </Helmet>
 
       <Container maxWidth="100%">
@@ -66,7 +89,7 @@ export default function CertificateDetail() {
               <CardMedia
                 component="img"
                 height="600"
-                image={imageUrl}
+                image={image}
                 alt={name}
               />
             </Card>
@@ -79,7 +102,7 @@ export default function CertificateDetail() {
               </Typography>
 
               <Box display="flex" alignItems="center" mt={2}>
-                <Avatar alt={name} src={avatar} style={{ marginRight: '16px' }} />
+                <Avatar alt={name} src='#' style={{ marginRight: '16px' }} />
 
                 <Box>
                   <Typography variant="subtitle2">Creator</Typography>
@@ -118,7 +141,7 @@ export default function CertificateDetail() {
                     <Typography variant="h6" style={{ marginRight: '16px' }}>
                       Working Progress
                     </Typography>
-                    <LinearProgressWithLabel value={progress} />
+                    <LinearProgressWithLabel value="s" />
                   </Box>
 
                 </Box>
@@ -137,7 +160,7 @@ export default function CertificateDetail() {
                     Carbon Amount:
                   </Typography>
                   <Typography component="span" style={{ display: 'block', fontSize: '1.4rem' }}>
-                    {carbonAmount} CARBON
+                    {amount} CARBON
                   </Typography>
                 </Box>
               </Card>
@@ -148,7 +171,7 @@ export default function CertificateDetail() {
             <Box>
               <Typography variant="h5">Description</Typography>
               <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                {description}
               </Typography>
               <Typography variant="h5" component="span" style={{ display: 'inline-block', marginRight: '8px' }}>
                 Address:
@@ -164,7 +187,7 @@ export default function CertificateDetail() {
                 <Typography style={{ fontSize: '1.8rem', marginBottom: '8px', display: 'block', fontWeight: 'bold' }}>Current Price</Typography>
 
                 <Typography variant="h3" component="span" style={{ color: 'rgb(34 162 237)', display: 'block', marginBottom: '8px' }}>
-                  {usdtPrice} USDT
+                  {price} USDT
                 </Typography>
               </Box>
 
@@ -172,6 +195,7 @@ export default function CertificateDetail() {
                 variant="contained"
                 color="primary"
                 style={{ marginTop: '16px', borderRadius: '20px', width: '100%', height: '60px', fontSize: '2rem' }}
+                onClick={handleSubmit}
               >
                 Buy
               </Button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from 'react-helmet-async';
 // mui
 import {
@@ -25,12 +25,18 @@ import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 // components
 import NFTCard from "../../components/common/Card";
 // mock data
-import certificates from "../../_mock/certificate";
+// import certificates from "../../_mock/certificate";
+
+
 // store
 import { useDispatch } from "react-redux";
 import { setCertificate, clearCertificate } from "../../features/certificateSlice";
 //css 
 import '../../assets/css/market.css';
+
+import axios from "axios";
+
+const baseURL = "http://localhost:3333/projectNfts/";
 
 function Marketplace() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,6 +45,14 @@ function Marketplace() {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [tempPriceRange, setTempPriceRange] = useState(priceRange);
+
+  const [datas, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get(baseURL).then((res) => {
+        setData(res.data);
+    })
+}, []);
 
   const dispatch = useDispatch();
 
@@ -172,7 +186,7 @@ function Marketplace() {
             />
           </Grid>
           {
-            certificates.map(certificate => (
+            datas.map(certificate => (
               <Grid
                 item xs={12}
                 sm={6}
@@ -182,11 +196,11 @@ function Marketplace() {
               >
                 <div className="card">
                   <NFTCard
-                    imageUrl={certificate.imageUrl}
+                    imageUrl={certificate.image}
                     name={certificate.name}
                     id={certificate.id}
-                    carbonAmount={certificate.carbonAmount}
-                    usdtPrice={certificate.usdtPrice}
+                    carbonAmount={certificate.amount}
+                    usdtPrice={certificate.price}
                     onClick={() => handleCardClick(certificate)}
                   />
                   <div className="back-card"></div>

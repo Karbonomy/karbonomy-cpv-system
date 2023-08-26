@@ -14,13 +14,18 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 import { FormProvider as Form, useForm } from 'react-hook-form';
 // import { fileToBase64 } from '../../utils/fileUltils'
 import Empty from '../../assets/images/empty.jpeg';
 import UploadWidget from '../../components/UploadWidget/UploadWidget';
+import axios from "axios";
+
+const baseURL = "http://localhost:3333/projectNfts/";
 
 export default function CreateProject() {
+    const { wallet } = useSelector((state) => state.user);
     const [url, updateUrl] = useState();
     const [error, updateError] = useState();
     function handleOnUpload(error, result, widget) {
@@ -49,7 +54,11 @@ export default function CreateProject() {
 
     const returnPage = async (event) => {
         event.preventDefault()
-        navigate('/projects')
+        navigate('/projects',  {
+            state: {
+              result: true,
+            }
+          })
     }
 
     // const onChangeFile = async (event) => {
@@ -70,7 +79,6 @@ export default function CreateProject() {
     const CreateSchema = Yup.object().shape({
         name: Yup.string().required('please enter name'),
         organization: Yup.string().required('please enter organization name'),
-        address: Yup.string().required('please enter address'),
         mail_address: Yup.string().email('please enter conrrect email format')
     })
 
@@ -86,16 +94,26 @@ export default function CreateProject() {
 
     const onSubmit = async (data) => {
         setIsSubmit(true);
+        let image = {url}
+        let wallet_company = {wallet};
         const datas = {
             name: data.name,
-            organization: data.organization,
-            mail_address: data.mail_address,
+            wallet: wallet_company.wallet,
+            origin: data.organization,
+            address: data.address,
             start_date: data.start_date,
             end_date: data.end_date,
+            amount: data.amount,
+            price: data.price,
             description: data.description,
-            file: { url },
+            image:  image.url ,
         };
         console.log(datas)
+
+        axios.post(baseURL + "create", datas).then((res) => {
+            console.log(res);
+            navigate('/projects');
+        })
     }
 
     return (

@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import {
@@ -26,15 +26,19 @@ import Scrollbar from '../../components/scrollbar';
 import { ProjectListHead, ProjectListToolbar } from '../../sections/@dashboard/projects';
 // mock
 import PROJECTS from '../../_mock/projects';
+import axios from "axios";
+
+const baseURL = "http://localhost:3333/projectNfts/";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
     { id: 'name', label: 'Project Name', alignRight: false },
-    { id: 'organization', label: 'Implementing Organization', alignRight: false },
+    { id: 'origin', label: 'Implementing Origin', alignRight: false },
     { id: 'amount', label: 'Purchase Amount (t-CO2)', alignRight: false },
     { id: 'price', label: 'Purchase Price', alignRight: false },
-    { id: 'date', label: 'Date', alignRight: false },
+    { id: 'start_date', label: 'Start date', alignRight: false },
+    { id: 'end_date', label: 'End date', alignRight: false },
     { id: '' },
 ];
 
@@ -83,6 +87,14 @@ export default function ProjectPage() {
 
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
+    const [datas, setData] = useState([]);
+
+    useEffect(() => {
+        axios.get(baseURL).then((res) => {
+            setData(res.data);
+        })
+    }, []);
+
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
@@ -91,7 +103,7 @@ export default function ProjectPage() {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = PROJECTS.map((n) => n.name);
+            const newSelecteds = datas.map((n) => n.name);
             setSelected(newSelecteds);
             return;
         }
@@ -127,9 +139,9 @@ export default function ProjectPage() {
         setFilterName(event.target.value);
     };
 
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - PROJECTS.length) : 0;
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - datas.length) : 0;
 
-    const filteredProjects = applySortFilter(PROJECTS, getComparator(order, orderBy), filterName);
+    const filteredProjects = applySortFilter(datas, getComparator(order, orderBy), filterName);
 
     const isNotFound = !filteredProjects.length && !!filterName;
 
@@ -168,7 +180,7 @@ export default function ProjectPage() {
                                 />
                                 <TableBody>
                                     {filteredProjects.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                                        const { id, name, organization, amount, price, date } = row;
+                                        const { id, name, origin, amount, price, start_date, end_date } = row;
                                         const selectedProject = selected.indexOf(name) !== -1;
 
                                         return (
@@ -185,13 +197,15 @@ export default function ProjectPage() {
                                                     </Stack>
                                                 </TableCell>
 
-                                                <TableCell align="left">{organization}</TableCell>
+                                                <TableCell align="left">{origin}</TableCell>
 
                                                 <TableCell align="left">{amount}</TableCell>
 
                                                 <TableCell align="left">{price}</TableCell>
 
-                                                <TableCell align="left">{date}</TableCell>
+                                                <TableCell align="left">{start_date}</TableCell>
+
+                                                <TableCell align="left">{end_date}</TableCell>
 
 
                                                 <TableCell align="right">
@@ -239,7 +253,7 @@ export default function ProjectPage() {
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={PROJECTS.length}
+                        count={datas.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}

@@ -22,7 +22,7 @@ export default function NFTCard({ imageUrl, name, id, carbonAmount, usdtPrice, o
   };
 
   return (
-    <Link to={`/marketplace/detail?id=${id}`} style={{ textDecoration: 'none' }} onClick={onClick}>
+    <Link to={`/marketplace/${id}/detail`} style={{ textDecoration: 'none' }} onClick={onClick}>
       <Card
         raised
         elevation={isHovered ? 8 : 1}

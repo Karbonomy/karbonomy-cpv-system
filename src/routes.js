@@ -45,7 +45,7 @@ export default function Router() {
       element: <MarketLayout />,
       children: [
         { path: '/marketplace', element: <Marketplace /> },
-        { path: '/marketplace/detail', element: <CertificateDetail /> },
+        { path: '/marketplace/:marketId/detail', element: <CertificateDetail /> },
       ]
     }
   ]);

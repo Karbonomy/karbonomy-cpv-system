@@ -3,17 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   id: '',
   name: '',
-  imageUrl: '',
-  usdtPrice: 0,
-  carbonAmount: 0,
-  progress: 0,
-  createdAt: '',
   origin: '',
-  avatar: '',
   address: '',
-  startDate: '',
-  endDate: '',
+  start_date: '',
+  end_date: '',
+  amount: 0,
+  price: 0,
+  image: '',
   description: '',
+  createdAt: '',
 }
 
 const certificateSlice = createSlice({
@@ -24,46 +22,42 @@ const certificateSlice = createSlice({
       const {
         id,
         name,
-        imageUrl,
-        usdtPrice,
-        carbonAmount,
-        progress,
-        createdAt,
+        wallet,
         origin,
-        avatar,
         address,
-        startDate,
-        endDate,
+        start_date,
+        end_date,
+        amount,
+        price,
+        image,
         description,
+        createdAt,
       } = action.payload;
       state.id = id;
       state.name = name;
-      state.imageUrl = imageUrl;
-      state.usdtPrice = usdtPrice;
-      state.carbonAmount = carbonAmount;
-      state.progress = progress;
-      state.createdAt = createdAt;
+      state.walletCompany = wallet;
       state.origin = origin;
-      state.avatar = avatar;
       state.address = address;
-      state.startDate = startDate;
-      state.endDate = endDate;
+      state.startDate = start_date;
+      state.endDate = end_date;
+      state.amount = amount;
+      state.price = price;
+      state.image = image;
       state.description = description;
+      state.createdAt = createdAt;
     },
     clearCertificate: (state) => {
       state.id = '';
       state.name = '';
-      state.imageUrl = '';
-      state.usdtPrice = 0;
-      state.carbonAmount = 0;
-      state.progress = 0;
-      state.createdAt = '';
       state.origin = '';
-      state.avatar = '';
       state.address = '';
-      state.startDate = '';
+      state.startDdate = '';
       state.endDate = '';
+      state.amount = 0;
+      state.price = 0;
+      state.image = '';
       state.description = '';
+      state.createdAt = '';
     }
   }
 })
