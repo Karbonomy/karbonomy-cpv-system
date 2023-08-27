@@ -80,7 +80,7 @@ function Marketplace() {
     axios.get(baseURL + wallet).then((res) => {
       setData(res.data);
     })
-  }, []);
+  }, [wallet]);
 
   const dispatch = useDispatch();
 

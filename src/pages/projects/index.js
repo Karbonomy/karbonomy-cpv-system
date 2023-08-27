@@ -163,7 +163,7 @@ export default function ProjectPage() {
         axios.get(baseURL + wallet).then((res) => {
             setData(res.data);
         })
-    }, []);
+    }, [wallet]);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
